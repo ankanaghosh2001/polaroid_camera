@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Berkshire_Swash } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { PhotoProvider } from "@/context/PhotoContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const berk_swash = Berkshire_Swash({
+  variable: "--font-berk-shwash",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -25,9 +25,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${berk_swash.variable} ${berk_swash.variable} antialiased`}
       >
+        <ThemeProvider attribute="class" defaultTheme='pink' enableSystem disableTransitionOnChange>
+          <PhotoProvider>
+        <Navbar />
         {children}
+        <Footer />
+        </PhotoProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
