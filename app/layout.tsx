@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { PhotoProvider } from "@/context/PhotoContext";
+import { Toaster } from "@/components/ui/sonner";
 
 const berk_swash = Berkshire_Swash({
   variable: "--font-berk-shwash",
@@ -31,6 +32,7 @@ export default function RootLayout({
           <PhotoProvider>
         <Navbar />
         {children}
+        <Toaster />
         <Footer />
         </PhotoProvider>
         </ThemeProvider>

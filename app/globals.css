@@ -153,8 +153,8 @@
   }
 }
 
-.safe-print, 
-.safe-print * {
+.safe-border, 
+.safe-border * {
   border-color: white !important; /* Force simple Hex color */
   outline-color: white !important; /* Force simple Hex color */
 }

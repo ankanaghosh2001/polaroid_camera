@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { usePhotoContext } from "@/context/PhotoContext";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const cameraPage = () => {
   const searchParams = useSearchParams();
@@ -31,7 +33,7 @@ const cameraPage = () => {
 
   const takePhoto = () => {
     if (shotsCount <= photos.length) {
-      alert("No more shots available!");
+      toast.error("No more shots available!");
       return;
     }
     
@@ -123,7 +125,12 @@ const cameraPage = () => {
           ))}
         </div>
 
-        <button onClick={() => router.push('/result')} disabled={photos.length != shotsCount} className="font-berk-shwash text-background bg-foreground rounded-2xl py-3 px-8 cursor-pointer hover:bg-foreground/85">Customize My Photos</button>
+        <button onClick={() => {
+          if(photos.length != shotsCount){
+            toast.error(`Please take all ${shotsCount} shots before proceeding!`);
+            return;
+          }
+          router.push('/result')}} className="font-berk-shwash text-card bg-foreground rounded-2xl py-3 px-8 cursor-pointer hover:bg-foreground/85">Customize My Photos</button>
       </div>
     </div>
   );
