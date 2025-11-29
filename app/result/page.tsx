@@ -98,6 +98,10 @@ const ResultPage = () => {
     const canvas = await html2canvas(polaroidRef.current, {
       backgroundColor: null,
       scale: 2,
+      ignoreElements: (element) => {
+        // Ignore the sticker delete buttons
+        return element.classList.contains("sticker-delete-button");
+      }
     });
 
     return new Promise((resolve) => {
@@ -195,14 +199,14 @@ const ResultPage = () => {
             >
               <div
                 ref={sticker.nodeRef} // Attach the same ref here
-                className="absolute top-0 left-0 w-16 h-16 cursor-move touch-none z-50 hover:border-2 border-blue-100 border-dashed rounded"
+                className="absolute top-0 left-0 w-16 h-16 cursor-move z-50 hover:border-2 border-blue-100 border-dashed rounded"
               >
                 <img
                   src={sticker.src}
                   className="w-full h-full object-contain relative pointer-events-none"
                   alt="sticker"
                 />
-                <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full active:block">
+                <div className="sticker-delete-button absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full active:block">
                   <X size={10} className="text-white mx-auto mt-[2px]" onClick={() => removeSticker(sticker.id)}/>
                 </div>
               </div>
@@ -242,6 +246,7 @@ const ResultPage = () => {
                     alt="sticker"
                     className="w-12 h-12 object-contain"
                   />
+                  
                 </button>
               ))}
             </div>
@@ -250,7 +255,7 @@ const ResultPage = () => {
             <Button onClick={handleDownload} className="cursor-pointer">
               <Download className="mr-2 h-4 w-4" /> Save
             </Button>
-            <Button onClick={handleShare} className="cursor-pointer">
+            <Button onClick={handleShare} disabled={isUploading} className="cursor-pointer">
               <Share2 className="mr-2 h-4 w-4" /> Share
             </Button>
           </div>
