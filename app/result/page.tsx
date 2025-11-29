@@ -97,6 +97,27 @@ const ResultPage = () => {
     setStickers((prev) => prev.filter((s) => s.id !== id));
   };
 
+  const handleDoubleTap = (e: React.TouchEvent | React.MouseEvent, id: number) => {
+  // If it's a mouse double click, just run it
+  if (e.type === 'dblclick') {
+    removeSticker(id);
+    return;
+  }
+
+  // If it's a touch event, check the time difference
+  const now = Date.now();
+  // @ts-ignore - we are attaching a custom property to the DOM element for tracking
+  const lastTap = e.currentTarget.lastTap || 0;
+  
+  if (now - lastTap < 300) {
+    // 300ms is the standard "double tap" speed
+    removeSticker(id);
+  } else {
+    // @ts-ignore
+    e.currentTarget.lastTap = now;
+  }
+};
+
   const captureImage = async (): Promise<Blob | null> => {
     if (!polaroidRef.current) return null;
     const canvas = await html2canvas(polaroidRef.current, {
@@ -195,12 +216,13 @@ const ResultPage = () => {
             <Draggable
               key={sticker.id}
               nodeRef={sticker.nodeRef} // Pass the ref we created earlier
-              bounds="" // Keep inside the white box
+              bounds="parent" // Keep inside the white box
             >
               <div
                 ref={sticker.nodeRef} // Attach the same ref here
                 className="absolute top-0 left-0 w-16 h-16 cursor-move z-50 hover:border-2 border-blue-100 border-dashed rounded"
-                onDoubleClick={() => removeSticker(sticker.id)}
+                onDoubleClick={(e) => handleDoubleTap(e, sticker.id)}
+                onTouchEnd={(e) => handleDoubleTap(e, sticker.id)}
               >
                 <img
                   src={sticker.src}

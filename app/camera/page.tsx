@@ -11,7 +11,7 @@ const filterConfig = {
   // Pink Theme: Y2K Vibe (High saturation, brightness, slight pink tint)
   pink: {
     css: "contrast(1.2) saturate(1.5) brightness(1.1)", // The CSS filter string
-    tintColor: "rgba(255, 138, 181, 0.153)", // A see-through pink layer
+    tintColor: "rgba(255, 192, 181, 0.12)", // A see-through pink layer
   },
 
   // Vintage Theme: Old School (Sepia, lower contrast, warm tint)
@@ -136,20 +136,22 @@ const CameraContent = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ ease: "easeIn", duration: 0.7 }}
       >
-        <div className="camera flex flex-col items-center justify-center">
+        <div className="camera flex flex-col items-center justify-center w-full max-w-[350px]">
           <video
             ref={videoRef}
-            className="-scale-x-100"
+            className="-scale-x-100 relative"
             // apply filter to video element
             style={{
               filter: currentFilter.css,
             }}
-          ></video>
+          >
+          </video>
           {/* Tint Overlay */}
           <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{ backgroundColor: currentFilter.tintColor }}
           />
+          
           <div className="btnGroup flex justify-around items-center py-5 mx-auto gap-5">
             <motion.button
               onClick={retakePhoto}
