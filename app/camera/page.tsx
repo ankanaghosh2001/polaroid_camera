@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { usePhotoContext } from "@/context/PhotoContext";
@@ -21,7 +21,7 @@ const filterConfig = {
   }
 };
 
-const cameraPage = () => {
+const CameraContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const shotsCount = Number(searchParams.get("shotsCount")) || 0;
@@ -220,5 +220,13 @@ const cameraPage = () => {
     </div>
   );
 };
+
+const cameraPage = () => {
+  return (
+    <Suspense fallback={<div className="flex h-screen items-center justify-center text-foreground">Loading Camera...</div>}>
+      <CameraContent />
+    </Suspense>
+  )
+}
 
 export default cameraPage;
