@@ -137,21 +137,22 @@ const CameraContent = () => {
         transition={{ ease: "easeIn", duration: 0.7 }}
       >
         <div className="camera flex flex-col items-center justify-center w-full max-w-[350px]">
-          <video
-            ref={videoRef}
-            className="-scale-x-100 relative"
-            // apply filter to video element
-            style={{
-              filter: currentFilter.css,
-            }}
-          >
-          </video>
-          {/* Tint Overlay */}
-          <div 
-                className="absolute inset-0 pointer-events-none"
-                style={{ backgroundColor: currentFilter.tintColor }}
-          />
-          
+          <div className="relative">
+            <video
+              ref={videoRef}
+              className="-scale-x-100"
+              // apply filter to video element
+              style={{
+                filter: currentFilter.css,
+              }}
+            >
+            </video>
+            {/* Tint Overlay */}
+            <div 
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ backgroundColor: currentFilter.tintColor }}
+            />
+          </div>
           <div className="btnGroup flex justify-around items-center py-5 mx-auto gap-5">
             <motion.button
               onClick={retakePhoto}
