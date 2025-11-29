@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect, createRef } from "react";
 import { usePhotoContext } from "@/context/PhotoContext";
 import html2canvas from "html2canvas";
-import { Download, Share2, Link, StickerIcon } from "lucide-react";
+import { Download, Share2, Link, StickerIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -76,10 +76,6 @@ const ResultPage = () => {
 
   const currentColors = themeConfig[activeTheme] || themeConfig.pink;
 
-  // const STICKER_OPTIONS = [
-    
-  // ];
-
   const stickerOptions = STICKER_OPTIONS[activeTheme] || STICKER_OPTIONS.pink;
 
   const [stickers, setStickers] = useState<PlacedSticker[]>([]);
@@ -96,27 +92,6 @@ const ResultPage = () => {
   const removeSticker = (id: number) => {
     setStickers((prev) => prev.filter((s) => s.id !== id));
   };
-
-  const handleDoubleTap = (e: React.TouchEvent | React.MouseEvent, id: number) => {
-  // If it's a mouse double click, just run it
-  if (e.type === 'dblclick') {
-    removeSticker(id);
-    return;
-  }
-
-  // If it's a touch event, check the time difference
-  const now = Date.now();
-  // @ts-ignore - we are attaching a custom property to the DOM element for tracking
-  const lastTap = e.currentTarget.lastTap || 0;
-  
-  if (now - lastTap < 300) {
-    // 300ms is the standard "double tap" speed
-    removeSticker(id);
-  } else {
-    // @ts-ignore
-    e.currentTarget.lastTap = now;
-  }
-};
 
   const captureImage = async (): Promise<Blob | null> => {
     if (!polaroidRef.current) return null;
@@ -220,15 +195,16 @@ const ResultPage = () => {
             >
               <div
                 ref={sticker.nodeRef} // Attach the same ref here
-                className="absolute top-0 left-0 w-16 h-16 cursor-move z-50 hover:border-2 border-blue-100 border-dashed rounded"
-                onDoubleClick={(e) => handleDoubleTap(e, sticker.id)}
-                onTouchEnd={(e) => handleDoubleTap(e, sticker.id)}
+                className="absolute top-0 left-0 w-16 h-16 cursor-move touch-none z-50 hover:border-2 border-blue-100 border-dashed rounded"
               >
                 <img
                   src={sticker.src}
-                  className="w-full h-full object-contain pointer-events-none"
+                  className="w-full h-full object-contain relative pointer-events-none"
                   alt="sticker"
                 />
+                <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full active:block">
+                  <X size={10} className="text-white mx-auto mt-[2px]" onClick={() => removeSticker(sticker.id)}/>
+                </div>
               </div>
             </Draggable>
           ))}
