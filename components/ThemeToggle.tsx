@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { useState } from "react"
 import { Palette } from "lucide-react"
 import { useTheme } from "next-themes"
 
@@ -14,11 +14,13 @@ import {
 
 const ThemeToggle = () => {
 
-    const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon-lg" className="focus:rotate-90 transition-transform ease-in-out duration-300 cursor-pointer">
+        <Button variant="ghost" size="icon-lg" className={`transition-transform ease-in-out duration-300 cursor-pointer ${isOpen ? 'rotate-90' : 'rotate-0'}`}>
           <Palette className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>
           <span className="sr-only">Toggle theme</span>
         </Button>
