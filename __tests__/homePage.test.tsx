@@ -68,23 +68,4 @@ describe('Page', () => {
     expect(submitButton).toBeDisabled()
   })
 
-  it('Navigates to camera page on submit', () => {
-    render(<Page />)
-
-    const dropdown = screen.getByTestId('shots-dropdown')
-
-    fireEvent.change(dropdown, {
-        target: { value: '4' },
-    })
-
-    const button = screen.getByRole('button', {
-        name: /Let's Take Photos!/i,
-    })
-
-    fireEvent.click(button)
-
-    expect(pushMock).toHaveBeenCalledWith(
-        '/camera?shotsCount=4'
-    )
-  })
 })

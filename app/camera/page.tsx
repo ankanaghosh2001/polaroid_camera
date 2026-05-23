@@ -26,6 +26,8 @@ const CameraContent = () => {
   const router = useRouter();
   const shotsCount = Number(searchParams.get("shotsCount")) || 0;
 
+  const [cameraErr, setCameraErr] = useState<string | null>(null);
+
   const { photos, setPhotos } = usePhotoContext();
 
   const columns = shotsCount > 0 ? shotsCount : Math.max(1, photos.length);
@@ -47,7 +49,8 @@ const CameraContent = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Camera Permission Denied:", err);
+        setCameraErr("Camera Permission denied !");
       });
   };
 
@@ -128,30 +131,33 @@ const CameraContent = () => {
     };
   }, [photos]);
 
-  return (
+  return cameraErr ? (
+    <div className="error-message container mx-auto bg-white py-3 px-7 rounded-xl text-red-600 text-md md:text-xl font-bold mt-20 shadow-lg/50 w-max">
+      {cameraErr}
+    </div>
+  ) : (
     <div className="camera-page flex flex-col lg:flex-row justify-around items-center">
       <motion.div
         className="frame my-10 px-8 pt-8 bg-[#4B4848] rounded-2xl shadow-lg/85 mx-5 lg:mx-0"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ ease: "easeIn", duration: 0.7 }}
-      >
+        transition={{ ease: "easeIn", duration: 0.7 }}>
         <div className="camera flex flex-col items-center justify-center w-full max-w-[350px]">
           <div className="relative">
-            <video
-              ref={videoRef}
-              className="-scale-x-100"
-              // apply filter to video element
-              style={{
-                filter: currentFilter.css,
-              }}
-            >
-            </video>
-            {/* Tint Overlay */}
-            <div 
+                <video
+                  data-testid="camera-preview"
+                  ref={videoRef}
+                  className="-scale-x-100"
+                  // apply filter to video element
+                  style={{
+                    filter: currentFilter.css,
+                  }}
+                />
+                {/* Tint Overlay */}
+                <div
                   className="absolute inset-0 pointer-events-none"
                   style={{ backgroundColor: currentFilter.tintColor }}
-            />
+                />
           </div>
           <div className="btnGroup flex justify-around items-center py-5 mx-auto gap-5">
             <motion.button
