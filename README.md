@@ -35,8 +35,8 @@ Pretty Polaroid is a browser-based multi-themed photobooth that lets you capture
 
 - **Framework**: Next.js (App Router)
 - **Language**: TypeScript
-- **Styling**: TailwindCSS
-- **State management**: React context for shared camera/editor state
+- **Styling**: TailwindCSS, ShadcnUI
+- **State management**: React context for shared camera state
 - **Deployment**: Vercel
 
 ---
