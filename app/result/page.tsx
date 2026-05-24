@@ -199,6 +199,7 @@ const ResultPage = () => {
             >
               <div
                 ref={sticker.nodeRef} // Attach the same ref here
+                data-testid="added-sticker"
                 className="absolute top-0 left-0 w-16 h-16 cursor-move z-50 hover:border-2 border-blue-100 border-dashed rounded"
               >
                 <img

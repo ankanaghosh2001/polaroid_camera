@@ -55,3 +55,35 @@ test("camera to results navigation", async ({ page, context, browserName }) => {
 
   await expect(page).toHaveURL("/result");
 });
+
+test('customize results button triggers toast error without any shots taken', async({ page, context, browserName }) => {
+  test.skip(
+    browserName !== "chromium",
+    "Camera permission only supported in Chromium",
+  );
+
+  await context.grantPermissions(["camera"]);
+
+  await page.goto('/camera?shotsCount=1');
+
+  await page.getByRole('button', {name: /Customize My Photos/i}).click();
+
+  await expect(page.getByText(/Please take all 1 shots before proceeding!/i)).toBeVisible();
+})
+
+test('shows toast error when no more shots are available', async({ page, context, browserName }) => {
+  test.skip(
+    browserName !== "chromium",
+    "Camera permission only supported in Chromium",
+  );
+
+  await context.grantPermissions(["camera"]);
+
+  await page.goto('/camera?shotsCount=1');
+
+  await page.getByRole('button', {name: "Take Image", exact: true}).click();
+
+  await page.getByRole('button', {name: "Take Image", exact: true}).click();
+
+  await expect(page.getByText(/No more shots available!/i)).toBeVisible();
+})
