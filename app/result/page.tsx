@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect, createRef } from "react";
 import { usePhotoContext } from "@/context/PhotoContext";
 import html2canvas from "html2canvas";
-import { Download, Share2, Link, StickerIcon, X } from "lucide-react";
+import { Download, Share2, Link, StickerIcon, X, AlertTriangleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -256,7 +256,10 @@ const ResultPage = () => {
             <Button onClick={handleDownload} className="cursor-pointer">
               <Download className="mr-2 h-4 w-4" /> Save
             </Button>
-            <Button onClick={handleShare} disabled={isUploading} className="cursor-pointer">
+            {/* <Button onClick={handleShare} disabled={isUploading} className="cursor-pointer">
+              <Share2 className="mr-2 h-4 w-4" /> Share
+            </Button> */}
+            <Button onClick={() => toast.error('Share functionality is temporarily unavailable!')} className="cursor-pointer">
               <Share2 className="mr-2 h-4 w-4" /> Share
             </Button>
           </div>

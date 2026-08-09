@@ -35,7 +35,9 @@ const CameraContent = () => {
   const photoRef = useRef<HTMLCanvasElement>(null);
 
   const { resolvedTheme } = useTheme();
-  const activeTheme = (resolvedTheme as keyof typeof filterConfig) || "pink";
+  const activeTheme = resolvedTheme && resolvedTheme in filterConfig
+    ? (resolvedTheme as keyof typeof filterConfig)
+    : "pink";
   const currentFilter = filterConfig[activeTheme];
 
   const getVideo = () => {
