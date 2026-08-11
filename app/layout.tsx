@@ -14,6 +14,7 @@ const berk_swash = Berkshire_Swash({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://pretty-polaroid.vercel.app'),
   title: {
     default: "Pretty Polaroid | Create and Share Polaroid-Style Photos",
     template: '%s | Pretty Polaroid'
@@ -28,8 +29,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/banner.png',
-        width: 1200,
-        height: 720,
+        width: 1000,
+        height: 630,
         alt: 'Pretty Polaroid Website Banner'
       }
     ]
